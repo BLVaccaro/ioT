@@ -8,101 +8,6 @@
     android:background="#F8F2E6"
     tools:context=".DatosDesarrollador">
 
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="296dp"
-        android:layout_height="186dp"
-        android:layout_marginBottom="16dp"
-        android:background="#305F90"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="256dp"
-            android:layout_height="15dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:text="Kathalyna Ayleen Higuera Castro"
-            android:textAlignment="center"
-            android:textColor="#FDF9FC"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="198dp"
-            android:layout_height="16dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:text="Rol: Backend"
-            android:textAlignment="center"
-            android:textColor="#FDF9FC"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="284dp"
-            android:layout_height="8dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:text="kathalyna.higuera@inacapmail.cl"
-            android:textAlignment="center"
-            android:textColor="#FDF9FC"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="275dp"
-            android:layout_height="9dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:text="Inacap"
-            android:textAlignment="center"
-            android:textColor="#FDF9FC"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="278dp"
-            android:layout_height="3dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:text="Analista Programador"
-            android:textAlignment="center"
-            android:textColor="#FDF9FC"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="273dp"
-            android:layout_height="10dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:text="P13-C2"
-            android:textAlignment="center"
-            android:textColor="#FDF9FC"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="267dp"
-            android:layout_height="21dp"
-            android:layout_weight="1"
-            android:autoLink="web"
-            android:fontFamily="sans-serif-medium"
-            android:text="https://github.com/KaythFK/"
-            android:textAlignment="center"
-            android:textColor="#FDF9FC"
-            android:textColorLink="#98D1F5"
-            android:textSize="16sp" />
-
-
-    </LinearLayout>
-
     <ImageView
         android:id="@+id/imageView9"
         android:layout_width="201dp"
@@ -112,18 +17,8 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="81dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
-        app:srcCompat="@drawable/developer" />
+        app:srcCompat="@drawable/logo"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView8"
@@ -139,23 +34,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="81dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:srcCompat="@drawable/developer"
+        tools:ignore="ContentDescription" />
+
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="296dp"
-        android:layout_height="186dp"
-        android:layout_marginTop="28dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:background="#305F90"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView10">
 
         <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="256dp"
-            android:layout_height="15dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="Beatriz Victoria Lopez Vaccaro"
             android:textAlignment="center"
@@ -163,10 +70,8 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="198dp"
-            android:layout_height="16dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="Rol: Backend"
             android:textAlignment="center"
@@ -174,10 +79,8 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="284dp"
-            android:layout_height="8dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="beatriz.lopez07@inacapmail.cl"
             android:textAlignment="center"
@@ -185,10 +88,8 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="275dp"
-            android:layout_height="9dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="Inacap"
             android:textAlignment="center"
@@ -196,10 +97,8 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="278dp"
-            android:layout_height="3dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="Analista Programador"
             android:textAlignment="center"
@@ -207,10 +106,8 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="273dp"
-            android:layout_height="10dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:text="P13-C2"
             android:textAlignment="center"
@@ -218,10 +115,8 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/nombre1"
-            android:layout_width="267dp"
-            android:layout_height="31dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:autoLink="web"
             android:fontFamily="sans-serif-medium"
             android:text="https://github.com/BLVaccaro"
@@ -229,19 +124,97 @@
             android:textColor="#FDF9FC"
             android:textColorLink="#98D1F5"
             android:textSize="16sp" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="296dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="#305F90"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Kathalyna Ayleen Higuera Castro"
+            android:textAlignment="center"
+            android:textColor="#FDF9FC"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Rol: Backend"
+            android:textAlignment="center"
+            android:textColor="#FDF9FC"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="kathalyna.higuera@inacapmail.cl"
+            android:textAlignment="center"
+            android:textColor="#FDF9FC"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Inacap"
+            android:textAlignment="center"
+            android:textColor="#FDF9FC"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Analista Programador"
+            android:textAlignment="center"
+            android:textColor="#FDF9FC"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="P13-C2"
+            android:textAlignment="center"
+            android:textColor="#FDF9FC"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:fontFamily="sans-serif-medium"
+            android:text="https://github.com/KaythFK/"
+            android:textAlignment="center"
+            android:textColor="#FDF9FC"
+            android:textColorLink="#98D1F5"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView11"
         android:layout_width="97dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/developer" />
-
+        app:srcCompat="@drawable/developer"
+        tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

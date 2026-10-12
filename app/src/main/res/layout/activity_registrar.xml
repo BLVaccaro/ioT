@@ -12,18 +12,19 @@
         android:id="@+id/imageView3"
         android:layout_width="312dp"
         android:layout_height="165dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-medium"
         android:text="Registro de Usuario"
         android:textColor="#DA072940"
@@ -37,87 +38,72 @@
     <EditText
         android:id="@+id/Nombre1"
         android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="28dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
         android:background="#FFFFFF"
         android:ems="10"
         android:hint="Ingrese Nombres"
         android:inputType="text"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/Apellido1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <EditText
         android:id="@+id/Apellido1"
         android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
         android:background="#FFFFFF"
         android:ems="10"
         android:hint="Ingrese Apellidos"
         android:inputType="text"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/Email1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Nombre1"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/Nombre1" />
 
     <EditText
         android:id="@+id/Email1"
         android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="36dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
         android:background="#FFFFFF"
         android:ems="10"
         android:hint="Ingrese E-mail"
         android:inputType="textEmailAddress"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/Clave1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Apellido1"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/Apellido1" />
 
     <EditText
         android:id="@+id/Clave1"
         android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="36dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
         android:background="#FFFFFF"
         android:ems="10"
         android:hint="Ingrese Clave"
         android:inputType="textPassword"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/Clave2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Email1"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/Email1" />
 
     <EditText
         android:id="@+id/Clave2"
         android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="36dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
         android:background="#FFFFFF"
         android:ems="10"
         android:hint="Repetir Clave"
         android:inputType="textPassword"
         android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/btnRegistro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Clave1"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/Clave1" />
 
     <Button
         android:id="@+id/btnRegistro"
@@ -126,9 +112,10 @@
         android:layout_marginTop="24dp"
         android:backgroundTint="#123459"
         android:text="Registrarse"
+        android:textColor="#FFFFFF"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Clave2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

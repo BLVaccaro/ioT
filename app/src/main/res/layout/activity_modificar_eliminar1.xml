@@ -16,7 +16,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textViewTituloMod"
@@ -35,7 +36,7 @@
     <EditText
         android:id="@+id/modNombres"
         android:layout_width="220dp"
-        android:layout_height="38dp"
+        android:layout_height="48dp"
         android:layout_marginTop="40dp"
         android:background="#FFFFFF"
         android:hint="Nombres"
@@ -48,8 +49,8 @@
     <EditText
         android:id="@+id/modApellidos"
         android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
         android:background="#FFFFFF"
         android:hint="Apellidos"
         android:inputType="text"
@@ -61,8 +62,8 @@
     <EditText
         android:id="@+id/modEmail"
         android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="32dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="24dp"
         android:background="#FFFFFF"
         android:hint="E-mail"
         android:inputType="textEmailAddress"
@@ -78,6 +79,7 @@
         android:layout_marginTop="40dp"
         android:backgroundTint="#123459"
         android:text="Guardar"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/modEmail" />
@@ -89,6 +91,7 @@
         android:layout_marginTop="16dp"
         android:backgroundTint="#D76161"
         android:text="Eliminar"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnGuardarMod" />

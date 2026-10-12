@@ -32,7 +32,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
-    <!-- CONTENEDOR 1: CRUD USUARIO -->
     <LinearLayout
         android:id="@+id/contenedor1"
         android:layout_width="358dp"
@@ -49,6 +48,7 @@
             android:layout_height="match_parent"
             android:backgroundTint="#123459"
             android:text="CRUD Usuario"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             app:icon="@drawable/personas"
             app:iconTint="@null"
@@ -56,7 +56,6 @@
             app:iconGravity="start" />
     </LinearLayout>
 
-    <!-- CONTENEDOR 2: DATOS SENSOR -->
     <LinearLayout
         android:id="@+id/contenedor2"
         android:layout_width="354dp"
@@ -73,6 +72,7 @@
             android:layout_height="match_parent"
             android:backgroundTint="#123459"
             android:text="Datos Sensor"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             app:icon="@drawable/sensor"
             app:iconTint="@null"
@@ -80,7 +80,6 @@
             app:iconGravity="start" />
     </LinearLayout>
 
-    <!-- CONTENEDOR 3: DESARROLLADOR -->
     <LinearLayout
         android:id="@+id/contenedor3"
         android:layout_width="356dp"
@@ -97,6 +96,7 @@
             android:layout_height="match_parent"
             android:backgroundTint="#123459"
             android:text="Desarrollador"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             app:icon="@drawable/desarrollo"
             app:iconTint="@null"

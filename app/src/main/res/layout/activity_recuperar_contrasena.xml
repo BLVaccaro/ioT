@@ -17,7 +17,8 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView4"
@@ -101,7 +102,8 @@
             android:inputType="number"
             android:maxLength="1"
             android:textColor="#000000"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/codigo2"
@@ -113,7 +115,8 @@
             android:inputType="number"
             android:maxLength="1"
             android:textColor="#000000"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/codigo3"
@@ -125,7 +128,8 @@
             android:inputType="number"
             android:maxLength="1"
             android:textColor="#000000"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/codigo4"
@@ -137,7 +141,8 @@
             android:inputType="number"
             android:maxLength="1"
             android:textColor="#000000"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/codigo5"
@@ -149,7 +154,8 @@
             android:inputType="number"
             android:maxLength="1"
             android:textColor="#000000"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
     <TextView

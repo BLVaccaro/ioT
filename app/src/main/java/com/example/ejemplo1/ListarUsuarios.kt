@@ -24,13 +24,13 @@ class ListarUsuarios : AppCompatActivity() {
 
         val listViewUsuarios = findViewById<ListView>(R.id.listViewUsuarios)
 
-        // Lista estática solo para que el prototipo tenga elementos visuales
+
         val datosDePrueba = arrayListOf("1. Xiao Chiye", "2. Duamu Wuqiu", "3. Luo Binghe", "4. Shen Zechuan", "5. Chi Muyao", "6. Li Yu", "7. Mu Tianchi", "8. Wen Ren E")
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, datosDePrueba)
         listViewUsuarios.adapter = adapter
 
-        // Al hacer clic en cualquier nombre, viaja a la pantalla de Modificar/Eliminar
+
         listViewUsuarios.setOnItemClickListener { _, _, _, _ ->
             val viaje = Intent(this, ModificarEliminar1::class.java)
             startActivity(viaje)

@@ -8,90 +8,17 @@
     android:background="#F8F2E6"
     tools:context=".RegistroUsuarios">
 
-    <EditText
-        android:id="@+id/reclaveRegistro"
-        android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="24dp"
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="Repetir Clave"
-        android:inputType="textPassword"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/btnRegistro"
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="312dp"
+        android:layout_height="165dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/claveRegistro"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <EditText
-        android:id="@+id/claveRegistro"
-        android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="24dp"
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="Ingrese Clave"
-        android:inputType="textPassword"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/Clave2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailRegistro"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <EditText
-        android:id="@+id/emailRegistro"
-        android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="20dp"
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="Ingrese E-mail"
-        android:inputType="text"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/Email1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apellidoRegistro"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <EditText
-        android:id="@+id/apellidoRegistro"
-        android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="24dp"
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="Ingrese Apellidos"
-        android:inputType="text"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/Email1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nombres1"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <EditText
-        android:id="@+id/nombres1"
-        android:layout_width="220dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="44dp"
-        android:background="#FFFFFF"
-        android:ems="10"
-        android:hint="Ingrese Nombres"
-        android:inputType="text"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/Apellido1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView7"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView7"
@@ -108,27 +35,85 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="312dp"
-        android:layout_height="165dp"
-        android:layout_marginTop="40dp"
+    <EditText
+        android:id="@+id/nombres1"
+        android:layout_width="220dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="32dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="Ingrese Nombres"
+        android:inputType="text"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:layout_constraintTop_toBottomOf="@id/textView7" />
+
+    <EditText
+        android:id="@+id/apellidoRegistro"
+        android:layout_width="220dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="Ingrese Apellidos"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nombres1" />
+
+    <EditText
+        android:id="@+id/emailRegistro"
+        android:layout_width="220dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="Ingrese E-mail"
+        android:inputType="textEmailAddress"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/apellidoRegistro" />
+
+    <EditText
+        android:id="@+id/claveRegistro"
+        android:layout_width="220dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="Ingrese Clave"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailRegistro" />
+
+    <EditText
+        android:id="@+id/reclaveRegistro"
+        android:layout_width="220dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:hint="Repetir Clave"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/claveRegistro" />
 
     <Button
         android:id="@+id/btnReg"
         android:layout_width="164dp"
         android:layout_height="62dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="24dp"
         android:backgroundTint="#123459"
         android:text="Registrar"
-        android:textColor="#FBFBFB"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reclaveRegistro" />
 

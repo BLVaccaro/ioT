@@ -24,8 +24,7 @@ class RegistroUsuarios : AppCompatActivity() {
             insets
         }
 
-        // 1. Enlazamos los 5 campos de tu diseño
-        // (Revisa que estos IDs coincidan con los que pusiste en tu XML)
+
         val etNombres = findViewById<EditText>(R.id.nombres1)
         val etApellidos = findViewById<EditText>(R.id.apellidoRegistro)
         val etEmail = findViewById<EditText>(R.id.emailRegistro)
@@ -34,19 +33,19 @@ class RegistroUsuarios : AppCompatActivity() {
 
         val btnRegistrar = findViewById<Button>(R.id.btnReg)
 
-        // 2. Lógica del botón Registrar
+
         btnRegistrar.setOnClickListener {
-            // Obtenemos el texto de los 5 campos
+
             val nombres = etNombres.text.toString().trim()
             val apellidos = etApellidos.text.toString().trim()
             val email = etEmail.text.toString().trim()
             val clave = etClave.text.toString().trim()
             val repetirClave = etRepetirClave.text.toString().trim()
 
-            // Regla para contraseña robusta (Mínimo 8 caracteres, con letras y números)
+
             val passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[^A-Za-z\\d]).{8,}$".toRegex()
 
-            // Validación 1: Que NINGÚN campo esté vacío[cite: 1]
+
             if (nombres.isEmpty() || apellidos.isEmpty() || email.isEmpty() || clave.isEmpty() || repetirClave.isEmpty()) {
                 SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Error")
@@ -57,7 +56,7 @@ class RegistroUsuarios : AppCompatActivity() {
                     }
                     .show()
             }
-            // Validación 2: Formato del E-mail[cite: 1]
+
             else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Advertencia")
@@ -68,7 +67,7 @@ class RegistroUsuarios : AppCompatActivity() {
                     }
                     .show()
             }
-            // Validación 3: Contraseña robusta[cite: 1]
+
             else if (!passwordPattern.matches(clave)) {
                 SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Advertencia")
@@ -79,7 +78,7 @@ class RegistroUsuarios : AppCompatActivity() {
                     }
                     .show()
             }
-            // Validación 4: Las contraseñas deben ser idénticas[cite: 1]
+
             else if (clave != repetirClave) {
                 SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Advertencia")
@@ -90,9 +89,9 @@ class RegistroUsuarios : AppCompatActivity() {
                     }
                     .show()
             }
-            // Si pasa todas las pruebas: Guardar y redirigir al Login
+
             else {
-                // Guardamos los datos localmente (Persistencia básica)
+
                 val sharedPreferences = getSharedPreferences("MisDatos", Context.MODE_PRIVATE)
                 val editor = sharedPreferences.edit()
                 editor.putString("emailGuardado", email)
@@ -106,10 +105,10 @@ class RegistroUsuarios : AppCompatActivity() {
                     .setConfirmClickListener { dialog ->
                         dialog.dismissWithAnimation()
 
-                        // Redirigir al Login sin iniciar sesión
+
                         val viajeLogin = Intent(this@RegistroUsuarios, Login::class.java)
                         startActivity(viajeLogin)
-                        finish() // Cierra la pantalla de registro
+                        finish()
                     }
                     .show()
             }
