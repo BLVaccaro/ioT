@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F2E6"
+    tools:context=".ModificarEliminar1">
+
+    <ImageView
+        android:id="@+id/imageViewLogo2"
+        android:layout_width="174dp"
+        android:layout_height="146dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textViewTituloMod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Modificar Usuario"
+        android:textColor="#DA072940"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewLogo2" />
+
+    <EditText
+        android:id="@+id/modNombres"
+        android:layout_width="220dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="40dp"
+        android:background="#FFFFFF"
+        android:hint="Nombres"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTituloMod" />
+
+    <EditText
+        android:id="@+id/modApellidos"
+        android:layout_width="220dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="32dp"
+        android:background="#FFFFFF"
+        android:hint="Apellidos"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modNombres" />
+
+    <EditText
+        android:id="@+id/modEmail"
+        android:layout_width="220dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="32dp"
+        android:background="#FFFFFF"
+        android:hint="E-mail"
+        android:inputType="textEmailAddress"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modApellidos" />
+
+    <Button
+        android:id="@+id/btnGuardarMod"
+        android:layout_width="179dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="#123459"
+        android:text="Guardar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/modEmail" />
+
+    <Button
+        android:id="@+id/btnEliminarMod"
+        android:layout_width="179dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#D76161"
+        android:text="Eliminar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnGuardarMod" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

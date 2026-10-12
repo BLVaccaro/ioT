@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F2E6"
+    tools:context=".MenuPrincipal">
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="312dp"
+        android:layout_height="165dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Fecha/Hora: 28-03-26, 11:11:11"
+        android:textColor="#DA072940"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+    <!-- CONTENEDOR 1: CRUD USUARIO -->
+    <LinearLayout
+        android:id="@+id/contenedor1"
+        android:layout_width="358dp"
+        android:layout_height="83dp"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+        <Button
+            android:id="@+id/btnCrud"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#123459"
+            android:text="CRUD Usuario"
+            android:textSize="24sp"
+            app:icon="@drawable/personas"
+            app:iconTint="@null"
+            app:iconSize="90dp"
+            app:iconGravity="start" />
+    </LinearLayout>
+
+    <!-- CONTENEDOR 2: DATOS SENSOR -->
+    <LinearLayout
+        android:id="@+id/contenedor2"
+        android:layout_width="354dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contenedor1">
+
+        <Button
+            android:id="@+id/btnSensores"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#123459"
+            android:text="Datos Sensor"
+            android:textSize="24sp"
+            app:icon="@drawable/sensor"
+            app:iconTint="@null"
+            app:iconSize="75dp"
+            app:iconGravity="start" />
+    </LinearLayout>
+
+    <!-- CONTENEDOR 3: DESARROLLADOR -->
+    <LinearLayout
+        android:id="@+id/contenedor3"
+        android:layout_width="356dp"
+        android:layout_height="88dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contenedor2">
+
+        <Button
+            android:id="@+id/btnDatos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#123459"
+            android:text="Desarrollador"
+            android:textSize="24sp"
+            app:icon="@drawable/desarrollo"
+            app:iconTint="@null"
+            app:iconSize="75dp"
+            app:iconGravity="start" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
