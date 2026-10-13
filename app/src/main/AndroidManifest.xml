@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" >
 
+    <!-- NUEVO PERMISO: Permite conectarse a Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- NUEVO PERMISO: Permite saber si el celular tiene Wi-Fi o Datos (Desafío) -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +16,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Ejemplo1" >
+        android:theme="@style/Theme.Ejemplo1"
+        android:usesCleartextTraffic="true" >  <!-- NUEVO PERMISO: Permite HTTP a tu IP 98.89.107.89 -->
+
         <activity
             android:name=".Splash"
             android:exported="true"
@@ -53,10 +59,6 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ListarUsuarios"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".ModificarEliminar"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity

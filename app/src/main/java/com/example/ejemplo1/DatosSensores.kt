@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
@@ -21,7 +22,6 @@ import java.util.Locale
 
 class DatosSensores : AppCompatActivity() {
 
-
     private lateinit var fecha: TextView
     private lateinit var temp: TextView
     private lateinit var hum: TextView
@@ -29,6 +29,7 @@ class DatosSensores : AppCompatActivity() {
     private lateinit var datos: RequestQueue
 
     private val mHandler = Handler(Looper.getMainLooper())
+    private var errorMostrado = false
 
     private lateinit var imgAmpolleta: ImageView
     private lateinit var imgLinterna: ImageView
@@ -48,15 +49,12 @@ class DatosSensores : AppCompatActivity() {
             insets
         }
 
-
         fecha = findViewById(R.id.txt_fecha)
         temp = findViewById(R.id.txt_temp)
         hum = findViewById(R.id.txt_humedad)
         imagenTemp = findViewById(R.id.imagen_temp)
 
-
         datos = Volley.newRequestQueue(this)
-
 
         mHandler.post(refrescar)
 
@@ -85,15 +83,14 @@ class DatosSensores : AppCompatActivity() {
                 cameraId?.let { id ->
                     cameraManager.setTorchMode(id, estadoLinterna)
                 }
-
                 if (estadoLinterna) {
-                    imgLinterna.setImageResource(R.drawable.luz1)
+                    imgLinterna.setImageResource(R.drawable.linternaon)
                 } else {
-                    imgLinterna.setImageResource(R.drawable.luzoff_1_)
+                    imgLinterna.setImageResource(R.drawable.linternaoff)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                android.widget.Toast.makeText(this, "No se pudo acceder a la linterna", android.widget.Toast.LENGTH_SHORT).show()
+                mostrarAlerta(SweetAlertDialog.ERROR_TYPE, "Error", "No se pudo acceder a la linterna del equipo.")
             }
         }
     }
@@ -105,10 +102,21 @@ class DatosSensores : AppCompatActivity() {
     }
 
     private fun obtenerDatos() {
+        if (!NetworkHelper.hayConexion(this)) {
+            temp.text = "-- °C"
+            hum.text = "-- %"
+            if (!errorMostrado) {
+                mostrarAlerta(SweetAlertDialog.WARNING_TYPE, "Modo Offline", "Sin conexión. Los sensores no se actualizarán.")
+                errorMostrado = true
+            }
+            return
+        }
+
         val url = "https://www.pnk.cl/muestra_datos.php"
         val request = JsonObjectRequest(
             Request.Method.GET, url, null,
             { response: JSONObject ->
+                errorMostrado = false
                 try {
                     temp.text = "${response.getString("temperatura")} °C"
                     hum.text = "${response.getString("humedad")} %"
@@ -121,6 +129,10 @@ class DatosSensores : AppCompatActivity() {
             },
             { error ->
                 error.printStackTrace()
+                if (!errorMostrado) {
+                    mostrarAlerta(SweetAlertDialog.ERROR_TYPE, "Error de API", "No se pudieron obtener los datos de pnk.cl")
+                    errorMostrado = true
+                }
             }
         )
         datos.add(request)
@@ -140,5 +152,19 @@ class DatosSensores : AppCompatActivity() {
             obtenerDatos()
             mHandler.postDelayed(this, 1000)
         }
+    }
+
+    private fun mostrarAlerta(tipo: Int, titulo: String, mensaje: String) {
+        SweetAlertDialog(this, tipo)
+            .setTitleText(titulo)
+            .setContentText(mensaje)
+            .setConfirmText("Entendido")
+            .setConfirmClickListener { it.dismissWithAnimation() }
+            .show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mHandler.removeCallbacks(refrescar)
     }
 }

@@ -1,18 +1,19 @@
 package com.example.ejemplo1
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-
-import android.widget.TextView
-import android.widget.Button
-import android.widget.EditText
-import android.content.Intent
 import cn.pedant.SweetAlert.SweetAlertDialog
-import android.os.Handler
-import android.os.Looper
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONException
 
 class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,56 +36,97 @@ class Login : AppCompatActivity() {
             val password = etPassword.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
-                SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("Error")
-                    .setContentText("Campos obligatorios en blanco.")
-                    .setConfirmText("Cerrar")
-                    .setConfirmClickListener { dialog ->
-                        dialog.dismissWithAnimation()
+                mostrarAlerta(SweetAlertDialog.ERROR_TYPE, "Error", "Campos obligatorios en blanco.")
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                mostrarAlerta(SweetAlertDialog.WARNING_TYPE, "Advertencia", "Formato de correo inválido.")
+            } else {
+                // Evaluamos conexión para el Login
+                if (NetworkHelper.hayConexion(this)) {
+                    loginAWS(email, password)
+                } else {
+                    loginSQLite(email, password)
+                }
+            }
+        }
+
+        findViewById<TextView>(R.id.olvidar).setOnClickListener {
+            startActivity(Intent(this, RecuperarContrasena::class.java))
+        }
+
+        findViewById<TextView>(R.id.registrar).setOnClickListener {
+            startActivity(Intent(this, Registrar::class.java))
+        }
+    }
+
+    private fun mostrarAlerta(tipo: Int, titulo: String, mensaje: String) {
+        SweetAlertDialog(this, tipo)
+            .setTitleText(titulo)
+            .setContentText(mensaje)
+            .setConfirmText("Cerrar")
+            .setConfirmClickListener { it.dismissWithAnimation() }
+            .show()
+    }
+
+    private fun loginAWS(email: String, clave: String) {
+        // Asegúrate de que el nombre del archivo PHP sea el correcto en tu AWS
+        val url = "http://98.89.107.89/apiconsultausu.php?usu=$email&pass=$clave"
+        val queue = Volley.newRequestQueue(this)
+
+        val pDialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+        pDialog.titleText = "Verificando en AWS..."
+        pDialog.setCancelable(false)
+        pDialog.show()
+
+        val request = JsonObjectRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                pDialog.dismissWithAnimation()
+                try {
+                    val estado = response.getString("estado")
+                    if (estado == "0") {
+                        mostrarAlerta(SweetAlertDialog.ERROR_TYPE, "Acceso Denegado", "Usuario o contraseña incorrectos.")
+                    } else {
+                        // Éxito: Viajamos al menú principal
+                        startActivity(Intent(this@Login, MenuPrincipal::class.java))
+                        finish()
                     }
-                    .show()
+                } catch (e: JSONException) {
+                    mostrarAlerta(SweetAlertDialog.ERROR_TYPE, "Error", "Respuesta inválida del servidor.")
+                }
+            },
+            { error ->
+                pDialog.dismissWithAnimation()
+                mostrarAlerta(SweetAlertDialog.WARNING_TYPE, "Sin red", "Fallo AWS. Intentando acceso local...")
+                loginSQLite(email, clave)
             }
-            else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Advertencia")
-                    .setContentText("Formato de correo inválido.")
-                    .setConfirmText("Entiendo")
-                    .setConfirmClickListener { dialog ->
-                        dialog.dismissWithAnimation()
-                    }
-                    .show()
-            }
+        )
+        queue.add(request)
+    }
 
-            // NUEVO: Solo Mensaje de Progreso (Cargando)
+    private fun loginSQLite(email: String, clave: String) {
+        val helper = ConexionDbHelper(this)
+        val db = helper.readableDatabase
 
-            else {
-                val pDialog = SweetAlertDialog(this@Login, SweetAlertDialog.PROGRESS_TYPE)
-                pDialog.titleText = "Cargando..."
-                pDialog.setCancelable(false)
-                pDialog.show()
+        // Buscamos si existe el usuario guardado localmente
+        val cursor = db.rawQuery("SELECT * FROM USUARIOS WHERE EMAIL=? AND CLAVE=?", arrayOf(email, clave))
 
-                // Espera 3 segundos, cierra la animación y viaja al menú
-                Handler(Looper.getMainLooper()).postDelayed({
-                    pDialog.dismissWithAnimation()
-
-                    val viajeMenu = Intent(this@Login, MenuPrincipal::class.java)
-                    startActivity(viajeMenu)
-                }, 3000) // 3000 milisegundos = 3 segundos
-            }
+        if (cursor.moveToFirst()) {
+            cursor.close()
+            db.close()
+            SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Modo Offline")
+                .setContentText("Sesión iniciada localmente.")
+                .setConfirmText("Entrar")
+                .setConfirmClickListener { dialog ->
+                    dialog.dismissWithAnimation()
+                    startActivity(Intent(this@Login, MenuPrincipal::class.java))
+                    finish()
+                }
+                .show()
+        } else {
+            cursor.close()
+            db.close()
+            mostrarAlerta(SweetAlertDialog.ERROR_TYPE, "Acceso Denegado", "Credenciales incorrectas o usuario no sincronizado en el celular.")
         }
-
-        val miTexto = findViewById<TextView>(R.id.olvidar)
-        miTexto.setOnClickListener {
-            val viaje = Intent(this, RecuperarContrasena::class.java)
-            startActivity(viaje)
-        }
-
-        val miTexto1 = findViewById<TextView>(R.id.registrar)
-        miTexto1.setOnClickListener {
-            val registro = Intent(this, Registrar::class.java)
-            startActivity(registro)
-        }
-
-
     }
 }

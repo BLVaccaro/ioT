@@ -1,6 +1,6 @@
 package com.example.ejemplo1
 
-import android.content.Context
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import cn.pedant.SweetAlert.SweetAlertDialog
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 
 class Registrar : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,81 +30,129 @@ class Registrar : AppCompatActivity() {
         val emailReg = findViewById<EditText>(R.id.Email1)
         val claveReg = findViewById<EditText>(R.id.Clave1)
         val repetirClaveReg = findViewById<EditText>(R.id.Clave2)
-
         val btnRegistrar = findViewById<Button>(R.id.btnRegistro)
 
-        // 2. Lógica del botón Registrar
         btnRegistrar.setOnClickListener {
-            // Obtenemos el texto de los 5 campos
             val nombres = nombresReg.text.toString().trim()
             val apellidos = apellidosReg.text.toString().trim()
             val email = emailReg.text.toString().trim()
             val clave = claveReg.text.toString().trim()
             val repetirClave = repetirClaveReg.text.toString().trim()
 
-            // Regla para contraseña robusta (Mínimo 8 caracteres, con letras y números)
             val passwordPattern = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[^A-Za-z\\d]).{8,}$".toRegex()
 
-            // Validación 1: Que NINGÚN campo esté vacío[cite: 1]
             if (nombres.isEmpty() || apellidos.isEmpty() || email.isEmpty() || clave.isEmpty() || repetirClave.isEmpty()) {
-                SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                    .setTitleText("Error")
-                    .setContentText("Todos los campos son obligatorios.")
-                    .setConfirmText("Cerrar")
-                    .setConfirmClickListener { dialog ->
-                        dialog.dismissWithAnimation()
-                    }
-                    .show()
+                mostrarAlerta(SweetAlertDialog.ERROR_TYPE, "Error", "Todos los campos son obligatorios.")
+            } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                mostrarAlerta(SweetAlertDialog.WARNING_TYPE, "Advertencia", "Formato de correo inválido.")
+            } else if (!passwordPattern.matches(clave)) {
+                mostrarAlerta(SweetAlertDialog.WARNING_TYPE, "Advertencia", "Contraseña débil. Debe tener al menos 8 caracteres, letras y números.")
+            } else if (clave != repetirClave) {
+                mostrarAlerta(SweetAlertDialog.WARNING_TYPE, "Advertencia", "Las contraseñas no coinciden.")
+            } else {
+                if (NetworkHelper.hayConexion(this)) {
+                    guardarEnAWS(nombres, apellidos, email, clave)
+                } else {
+                    guardarEnSQLite(nombres, apellidos, email, clave)
+                }
             }
-            // Validación 2: Formato del E-mail[cite: 1]
-            else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Advertencia")
-                    .setContentText("Formato de correo inválido.")
-                    .setConfirmText("Entiendo")
-                    .setConfirmClickListener { dialog ->
-                        dialog.dismissWithAnimation()
-                    }
-                    .show()
-            }
-            // Validación 3: Contraseña robusta[cite: 1]
-            else if (!passwordPattern.matches(clave)) {
-                SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Advertencia")
-                    .setContentText("Contraseña débil. Debe tener al menos 8 caracteres, letras y números.")
-                    .setConfirmText("Entiendo")
-                    .setConfirmClickListener { dialog ->
-                        dialog.dismissWithAnimation()
-                    }
-                    .show()
-            }
-            // Validación 4: Las contraseñas deben ser idénticas[cite: 1]
-            else if (clave != repetirClave) {
-                SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                    .setTitleText("Advertencia")
-                    .setContentText("Las contraseñas no coinciden.")
-                    .setConfirmText("Entiendo")
-                    .setConfirmClickListener { dialog ->
-                        dialog.dismissWithAnimation()
-                    }
-                    .show()
-            }
-            // Si pasa todas las pruebas: Guardar y redirigir al Login
-            else {
-                SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText("¡Éxito!")
-                    .setContentText("Usuario registrado correctamente.")
-                    .setConfirmText("Aceptar")
-                    .setConfirmClickListener { dialog ->
-                        dialog.dismissWithAnimation()
+        }
+    }
 
-                        // Redirigir al Login directamente sin guardar datos
-                        val viajeLogin = Intent(this@Registrar, Login::class.java)
-                        startActivity(viajeLogin)
-                        finish() // Cierra la pantalla de registro
+    private fun mostrarAlerta(tipo: Int, titulo: String, mensaje: String) {
+        SweetAlertDialog(this, tipo)
+            .setTitleText(titulo)
+            .setContentText(mensaje)
+            .setConfirmText("Entendido")
+            .setConfirmClickListener { it.dismissWithAnimation() }
+            .show()
+    }
+
+    private fun guardarEnAWS(nombres: String, apellidos: String, email: String, clave: String) {
+        val url = "http://98.89.107.89/registro.php"
+        val queue = Volley.newRequestQueue(this)
+
+        val pDialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+        pDialog.titleText = "Conectando con AWS..."
+        pDialog.setCancelable(false)
+        pDialog.show()
+
+        val stringRequest = object : StringRequest(
+            Request.Method.POST, url,
+            { response ->
+                if (response.trim() == "exito") {
+                    pDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                    pDialog.titleText = "¡Éxito!"
+                    pDialog.contentText = "Usuario registrado en AWS correctamente."
+                    pDialog.setConfirmText("Ir al Login")
+                    pDialog.setConfirmClickListener { dialog ->
+                        dialog.dismissWithAnimation()
+                        startActivity(Intent(this@Registrar, Login::class.java))
+                        finish()
                     }
-                    .show()
+                } else {
+                    pDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE)
+                    pDialog.titleText = "Error en AWS"
+                    pDialog.contentText = response
+                    pDialog.setConfirmText("Cerrar")
+                    pDialog.setConfirmClickListener { it.dismissWithAnimation() }
+                }
+            },
+            { error ->
+                pDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE)
+                pDialog.titleText = "Modo Offline"
+                pDialog.contentText = "AWS tardó en responder. Datos guardados localmente."
+                pDialog.setConfirmText("Ir al Login")
+                pDialog.setConfirmClickListener { dialog ->
+                    dialog.dismissWithAnimation()
+                    startActivity(Intent(this@Registrar, Login::class.java))
+                    finish()
+                }
+                guardarEnSQLiteInterno(nombres, apellidos, email, clave)
             }
+        ) {
+            override fun getParams(): MutableMap<String, String> {
+                val parametros = HashMap<String, String>()
+                parametros["nombres"] = nombres
+                parametros["apellidos"] = apellidos
+                parametros["email"] = email
+                parametros["clave"] = clave
+                return parametros
+            }
+        }
+        queue.add(stringRequest)
+    }
+
+    private fun guardarEnSQLite(nombres: String, apellidos: String, email: String, clave: String) {
+        guardarEnSQLiteInterno(nombres, apellidos, email, clave)
+        SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+            .setTitleText("Modo Offline")
+            .setContentText("Datos guardados localmente. Se subirán a AWS cuando haya internet.")
+            .setConfirmText("Ir al Login")
+            .setConfirmClickListener { dialog ->
+                dialog.dismissWithAnimation()
+                startActivity(Intent(this@Registrar, Login::class.java))
+                finish()
+            }
+            .show()
+    }
+
+    private fun guardarEnSQLiteInterno(nombres: String, apellidos: String, email: String, clave: String) {
+        val helper = ConexionDbHelper(this)
+        val db = helper.writableDatabase
+        try {
+            val datos = ContentValues().apply {
+                put("NOMBRE", nombres)
+                put("APELLIDO", apellidos)
+                put("EMAIL", email)
+                put("CLAVE", clave)
+                put("SINCRONIZADO", 0)
+            }
+            db.insert("USUARIOS", null, datos)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            db.close()
         }
     }
 }
