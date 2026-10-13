@@ -14,6 +14,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONException
+import android.net.Uri
 
 class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +70,7 @@ class Login : AppCompatActivity() {
 
     private fun loginAWS(email: String, clave: String) {
         // Asegúrate de que el nombre del archivo PHP sea el correcto en tu AWS
-        val url = "http://98.89.107.89/apiconsultausu.php?usu=$email&pass=$clave"
+        val url = "http://98.89.107.89/apiconsultausu.php?usu=${Uri.encode(email)}&pass=${Uri.encode(clave)}"
         val queue = Volley.newRequestQueue(this)
 
         val pDialog = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
@@ -83,12 +84,14 @@ class Login : AppCompatActivity() {
                 pDialog.dismissWithAnimation()
                 try {
                     val estado = response.getString("estado")
-                    if (estado == "0") {
-                        mostrarAlerta(SweetAlertDialog.ERROR_TYPE, "Acceso Denegado", "Usuario o contraseña incorrectos.")
-                    } else {
-                        // Éxito: Viajamos al menú principal
-                        startActivity(Intent(this@Login, MenuPrincipal::class.java))
-                        finish()
+                    when (estado) {
+                        "0" -> mostrarAlerta(SweetAlertDialog.ERROR_TYPE, "Acceso Denegado", "Usuario o contraseña incorrectos.")
+                        "2" -> mostrarAlerta(SweetAlertDialog.WARNING_TYPE, "Cuenta bloqueada", "Tu cuenta está bloqueada. Termina la recuperación de contraseña para reactivarla.")
+                        else -> {
+                            startActivity(Intent(this@Login, MenuPrincipal::class.java))
+                            finish()
+                        }
+
                     }
                 } catch (e: JSONException) {
                     mostrarAlerta(SweetAlertDialog.ERROR_TYPE, "Error", "Respuesta inválida del servidor.")

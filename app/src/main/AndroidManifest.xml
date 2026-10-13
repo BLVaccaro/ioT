@@ -17,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ejemplo1"
-        android:usesCleartextTraffic="true" >  <!-- NUEVO PERMISO: Permite HTTP a tu IP 98.89.107.89 -->
+        android:usesCleartextTraffic="true" >
 
         <activity
             android:name=".Splash"

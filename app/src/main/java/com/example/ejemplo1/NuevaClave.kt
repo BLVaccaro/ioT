@@ -9,8 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import cn.pedant.SweetAlert.SweetAlertDialog
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 
 class NuevaClave : AppCompatActivity() {
+
+    private val url = "http://98.89.107.89/recuperar.php"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,41 +27,43 @@ class NuevaClave : AppCompatActivity() {
             insets
         }
 
-        // 1. Conectar las cajas de texto y el botón (Verifica tus IDs del XML)
-        val nuevaClave = findViewById<EditText>(R.id.clavenueva)
-        val repetirClave = findViewById<EditText>(R.id.clavenueva1)
+        // Datos que vienen desde RecuperarContrasena
+        val email = intent.getStringExtra("email") ?: ""
+        val codigo = intent.getStringExtra("codigo") ?: ""
+
+        val etNueva = findViewById<EditText>(R.id.clavenueva)
+        val etRepetir = findViewById<EditText>(R.id.clavenueva1)
         val btnGuardarClave = findViewById<Button>(R.id.btnGuardarClave)
 
-        // Regla estricta: Mín. 8 caracteres, 1 mayúscula, 1 minúscula, 1 número, 1 carácter especial
+        // Mín. 8 caracteres, 1 mayúscula, 1 minúscula, 1 número, 1 carácter especial
         val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d]).{8,}$".toRegex()
 
         btnGuardarClave.setOnClickListener {
-            // Obtenemos los textos
-            val clave = nuevaClave.text.toString().trim()
-            val repetirClave = repetirClave.text.toString().trim()
+            val clave = etNueva.text.toString().trim()
+            val repetir = etRepetir.text.toString().trim()
 
-            // Validación 1: Campos vacíos
-            if (clave.isEmpty() || repetirClave.isEmpty()) {
+            // Validación 1: campos vacíos
+            if (clave.isEmpty() || repetir.isEmpty()) {
                 SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Error")
                     .setContentText("Todos los campos son obligatorios.")
                     .show()
             }
-            // Validación 2: Contraseña robusta
+            // Validación 2: contraseña robusta
             else if (!passwordPattern.matches(clave)) {
                 SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Advertencia")
                     .setContentText("La contraseña debe tener al menos 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial.")
                     .show()
             }
-            // Validación 3: Contraseñas idénticas
-            else if (clave != repetirClave) {
+            // Validación 3: contraseñas idénticas
+            else if (clave != repetir) {
                 SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Advertencia")
                     .setContentText("Las contraseñas no coinciden.")
                     .show()
             }
-            // Validación 4: Si todo está perfecto, lanzamos la confirmación
+            // Todo bien: pedir confirmación
             else {
                 SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("¿Confirmar cambio?")
@@ -65,28 +72,72 @@ class NuevaClave : AppCompatActivity() {
                     .setCancelText("Cancelar")
                     .setConfirmClickListener { dialog ->
                         dialog.dismissWithAnimation()
-
-                        // Si dice que sí, mostramos Éxito
-                        SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText("¡Éxito!")
-                            .setContentText("Tu contraseña ha sido actualizada.")
-                            .setConfirmText("Ir al Login")
-                            .setConfirmClickListener { exitoDialog ->
-                                exitoDialog.dismissWithAnimation()
-
-                                // Viaje final al Login
-                                val viajeLogin = Intent(this@NuevaClave, Login::class.java)
-                                startActivity(viajeLogin)
-                                finish()
-                            }
-                            .show()
+                        cambiarClave(email, codigo, clave)
                     }
                     .setCancelClickListener { dialog ->
-                        // Si cancela, solo cerramos la alerta
                         dialog.dismissWithAnimation()
                     }
                     .show()
             }
         }
+    }
+
+    private fun cambiarClave(email: String, codigo: String, clave: String) {
+        val cargando = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+        cargando.titleText = "Guardando..."
+        cargando.setCancelable(false)
+        cargando.show()
+
+        val params = mapOf(
+            "accion" to "verificar_y_cambiar",
+            "email" to email,
+            "codigo" to codigo,
+            "clave" to clave
+        )
+
+        val req = object : StringRequest(Method.POST, url,
+            { respuesta ->
+                cargando.dismissWithAnimation()
+                when (respuesta.trim()) {
+                    "exito" -> {
+                        SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("¡Éxito!")
+                            .setContentText("Tu contraseña ha sido actualizada.")
+                            .setConfirmText("Ir al Login")
+                            .setConfirmClickListener { d ->
+                                d.dismissWithAnimation()
+                                val viajeLogin = Intent(this@NuevaClave, Login::class.java)
+                                viajeLogin.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(viajeLogin)
+                                finish()
+                            }
+                            .show()
+                    }
+                    "codigo_invalido" -> {
+                        SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error")
+                            .setContentText("El código no es válido. Solicita uno nuevo.")
+                            .show()
+                    }
+                    else -> {
+                        SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error")
+                            .setContentText("No se pudo actualizar la contraseña: ${respuesta.trim()}")
+                            .show()
+                    }
+                }
+            },
+            { error ->
+                cargando.dismissWithAnimation()
+                val detalle = error.networkResponse?.statusCode?.toString() ?: error.javaClass.simpleName
+                SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Error de Red")
+                    .setContentText("Falló la conexión con el servidor AWS. ($detalle)")
+                    .show()
+            }) {
+            override fun getParams() = params
+        }
+
+        Volley.newRequestQueue(this).add(req)
     }
 }
