@@ -1,10 +1,17 @@
 package com.example.ejemplo1
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,9 +32,15 @@ class RecuperarContrasena : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_recuperar_contrasena)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        val scroll = findViewById<ScrollView>(R.id.main)
+        ViewCompat.setOnApplyWindowInsetsListener(scroll) { v, insets ->
             val s = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(s.left, s.top, s.right, s.bottom)
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            v.setPadding(s.left, s.top, s.right, maxOf(s.bottom, ime.bottom))
+            if (ime.bottom > 0) {
+                // con el teclado abierto, baja hasta mostrar las casillas y el temporizador
+                scroll.post { scroll.smoothScrollTo(0, scroll.getChildAt(0).bottom) }
+            }
             insets
         }
 
@@ -36,6 +49,8 @@ class RecuperarContrasena : AppCompatActivity() {
         val tvTimer = findViewById<TextView>(R.id.tvTemporizador)
         val cajas = listOf(R.id.codigo1, R.id.codigo2, R.id.codigo3, R.id.codigo4, R.id.codigo5)
             .map { findViewById<EditText>(it) }
+
+        configurarCajas(cajas)
 
         btn.setOnClickListener {
             val email = etEmail.text.toString().trim()
@@ -84,7 +99,7 @@ class RecuperarContrasena : AppCompatActivity() {
                     }
                 }
             } else {
-                // Paso 2: verificar el código en el servidor
+
                 val codigo = cajas.joinToString("") { it.text.toString().trim() }
                 if (codigo.length != 5) {
                     alerta(SweetAlertDialog.WARNING_TYPE, "Advertencia", "Ingresa los 5 dígitos del código.")
@@ -110,6 +125,41 @@ class RecuperarContrasena : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun configurarCajas(cajas: List<EditText>) {
+        cajas.forEachIndexed { i, caja ->
+            caja.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    if (s != null && s.length == 1) {
+                        if (i < cajas.size - 1) {
+                            cajas[i + 1].requestFocus()
+                        } else {
+                            ocultarTeclado(caja)   // última casilla llena
+                        }
+                    }
+                }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            })
+
+            caja.setOnKeyListener { _, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_DEL && event.action == KeyEvent.ACTION_DOWN
+                    && caja.text.isEmpty() && i > 0
+                ) {
+                    cajas[i - 1].text.clear()
+                    cajas[i - 1].requestFocus()
+                    true
+                } else {
+                    false
+                }
+            }
+        }
+    }
+
+    private fun ocultarTeclado(vista: View) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(vista.windowToken, 0)
     }
 
     private fun iniciarTimer(tv: TextView, btn: Button, cajas: List<EditText>) {

@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley
 class NuevaClave : AppCompatActivity() {
 
     private val url = "http://98.89.107.89/recuperar.php"
+    private var enviando = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,6 @@ class NuevaClave : AppCompatActivity() {
             insets
         }
 
-        // Datos que vienen desde RecuperarContrasena
         val email = intent.getStringExtra("email") ?: ""
         val codigo = intent.getStringExtra("codigo") ?: ""
 
@@ -35,36 +35,27 @@ class NuevaClave : AppCompatActivity() {
         val etRepetir = findViewById<EditText>(R.id.clavenueva1)
         val btnGuardarClave = findViewById<Button>(R.id.btnGuardarClave)
 
-        // Mín. 8 caracteres, 1 mayúscula, 1 minúscula, 1 número, 1 carácter especial
-        val passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d]).{8,}$".toRegex()
-
         btnGuardarClave.setOnClickListener {
             val clave = etNueva.text.toString().trim()
             val repetir = etRepetir.text.toString().trim()
+            val errorClave = Validaciones.errorClave(clave)
 
-            // Validación 1: campos vacíos
             if (clave.isEmpty() || repetir.isEmpty()) {
                 SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Error")
                     .setContentText("Todos los campos son obligatorios.")
                     .show()
-            }
-            // Validación 2: contraseña robusta
-            else if (!passwordPattern.matches(clave)) {
+            } else if (errorClave != null) {
                 SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Advertencia")
-                    .setContentText("La contraseña debe tener al menos 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y 1 carácter especial.")
+                    .setContentText(errorClave)
                     .show()
-            }
-            // Validación 3: contraseñas idénticas
-            else if (clave != repetir) {
+            } else if (clave != repetir) {
                 SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("Advertencia")
                     .setContentText("Las contraseñas no coinciden.")
                     .show()
-            }
-            // Todo bien: pedir confirmación
-            else {
+            } else {
                 SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("¿Confirmar cambio?")
                     .setContentText("¿Estás seguro de que deseas guardar la nueva contraseña?")
@@ -83,6 +74,9 @@ class NuevaClave : AppCompatActivity() {
     }
 
     private fun cambiarClave(email: String, codigo: String, clave: String) {
+        if (enviando) return
+        enviando = true
+
         val cargando = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
         cargando.titleText = "Guardando..."
         cargando.setCancelable(false)
@@ -97,6 +91,7 @@ class NuevaClave : AppCompatActivity() {
 
         val req = object : StringRequest(Method.POST, url,
             { respuesta ->
+                enviando = false
                 cargando.dismissWithAnimation()
                 when (respuesta.trim()) {
                     "exito" -> {
@@ -128,8 +123,9 @@ class NuevaClave : AppCompatActivity() {
                 }
             },
             { error ->
+                enviando = false
                 cargando.dismissWithAnimation()
-                val detalle = error.networkResponse?.statusCode?.toString() ?: error.javaClass.simpleName
+                val detalle = error.cause?.toString() ?: error.networkResponse?.statusCode?.toString() ?: error.javaClass.simpleName
                 SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                     .setTitleText("Error de Red")
                     .setContentText("Falló la conexión con el servidor AWS. ($detalle)")

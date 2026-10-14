@@ -39,10 +39,10 @@
         android:id="@+id/txt_fecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Cargando fecha..."
+        android:layout_marginTop="12dp"
+        android:text="Fecha/Hora"
         android:textColor="#DA072940"
-        android:textStyle="italic"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -51,7 +51,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:background="#123459"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -73,7 +73,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="sans-serif-black"
             android:lineSpacingExtra="8sp"
-            android:text="Temperatura = -- C°"
+            android:text="-- °C"
             android:textAlignment="center"
             android:textColor="#F0E0E0"
             android:textSize="23sp"
@@ -94,7 +94,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <ImageView
-            android:id="@+id/imagen_humedad"
+            android:id="@+id/iconoHumedad"
             android:layout_width="95dp"
             android:layout_height="97dp"
             android:src="@drawable/humidity" />
@@ -106,7 +106,7 @@
             android:layout_marginStart="16dp"
             android:fontFamily="sans-serif-black"
             android:lineSpacingExtra="8sp"
-            android:text="Humedad = --%"
+            android:text="-- %"
             android:textAlignment="center"
             android:textColor="#F0E0E0"
             android:textSize="24sp"
@@ -131,15 +131,14 @@
             android:layout_width="95dp"
             android:layout_height="97dp"
             android:layout_weight="1"
-            android:src="@drawable/luz1" />
+            android:src="@drawable/luzoff_1_" />
 
         <ImageView
             android:id="@+id/img_linterna"
             android:layout_width="95dp"
             android:layout_height="95dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/linternaoff"
-            app:tint="#092B61" />
+            android:src="@drawable/linternaoff" />
 
     </LinearLayout>
 
